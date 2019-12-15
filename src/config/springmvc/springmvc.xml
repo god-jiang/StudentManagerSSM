@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+	 	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+	<!-- 只需要扫描包中的 Controller 注解 -->
+	<context:component-scan base-package="god.jiang.programmer.controller">
+	<context:include-filter type="annotation"
+		expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 启动 mvc 注解驱动 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- 启动定时任务 -->
+	<task:annotation-driven/>
+	
+	<!-- 静态资源处理 -->
+	<mvc:default-servlet-handler/>
+	
+	<!-- 配置视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 文件上传 -->
+	<bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 上传文件大小限制 -->
+		<property name="maxUploadSize">  
+            <value>10485760</value>  
+        </property>  
+        <!-- 请求的编码格式, 和 jsp 页面一致 -->
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+	</bean>
+	
+	<!-- 后台访问拦截器 -->
+	
+	 <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/system/login"/>
+			<mvc:exclude-mapping path="/system/get_cpacha"/>
+			<mvc:exclude-mapping path="/h-ui/**"/>
+			<mvc:exclude-mapping path="/easyui/**"/>
+			<bean class="god.jiang.programmer.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors> 
+	 
+</beans>
