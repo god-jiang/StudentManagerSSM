@@ -8,6 +8,10 @@
 
 - 时间两周左右可以搞定
 
+#### 项目结构
+
+![](https://github.com/god-jiang/StudentManagerSSM/blob/master/SSM%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.png)
+
 #### 功能
 
 - 增删查改、分页、模糊查询、权限管理、登录拦截
